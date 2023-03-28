@@ -88,3 +88,17 @@ INNER JOIN `teachers`
 ON `teachers`.`id` = `ct`.`teacher_id`
 WHERE `departments`.`name` = 'Dipartimento di Matematica'
 ORDER BY `teachers`.`id`;
+
+7. BONUS: Selezionare per ogni studente quanti tentativi d’esame ha sostenuto per
+superare ciascuno dei suoi esami
+
+SELECT `students`.`id`, `students`.`surname` AS `student_surname`, `students`.`name` AS `student_name`, `courses`.`id` AS `course_id`, COUNT(`courses`.`id`) AS `exam_attempt`
+FROM `students`
+INNER JOIN `exam_student` AS `es`
+ON `students`.`id` = `es`.`student_id`
+INNER JOIN `exams`
+ON `exams`.`id` = `es`.`exam_id`
+INNER JOIN `courses`
+ON `courses`.`id` = `exams`.`course_id`
+GROUP BY `courses`.`id`, `students`.`id`
+ORDER BY `students`.`id`;
